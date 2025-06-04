@@ -1,9 +1,9 @@
-Aja como um desenvolvedor de aplicações web. Crie uma aplicação em node.js para coletar dados de uma página da web. A página é essa: https://fbref.com/en/comps/ . Crie um readme.md para essa aplicação. Crie um gitignore para essa aplicação. Crie os artefatos separadamente. Não precisa criar um frontend pois quero executar a aplicação por linha de comando.
+Aja como um desenvolvedor de aplicações web. Crie uma aplicação em node.js para coletar dados de uma página da web. A página é essa: https://fbref.com/en/comps/ . Crie um readme.md para essa aplicação. Crie um gitignore para essa aplicação. Crie um script para debug em caso de erros. Crie os artefatos separadamente. Não precisa criar um frontend pois quero executar a aplicação por linha de comando.
 
 A página em questão armazena as informações de interesse em elementos <table>. A página tem vários <table>. Não são todos os <table> que nos interessa. Somente alguns. Como identificar os <table> de interesse: todos <table> com id igual a [comps_club, comps_1_fa_club_league_senior, comps_2_fa_club_league_senior, comps_3_fa_club_league_senior]. 
 
 Como identificar as informações de interesse dentro dos <table>: 
-País: <td data-stat="country"><a>Sigla do país</a></td>. Obs.: As vezes o <td data-stat="country"></td> estará vazio sem o <a>, ignore essa linha e continue. O país é uma sigla de três letras. Exemplo: ENG, BRA, FRA.
+País: <td class="left " data-stat="country"><a href="/en/country/ENG/England-Football"><span class="f-i f-gb-eng" style="">eng</span></a> <a href="/en/country/ENG/England-Football">ENG</a></td>. Obs.: As vezes o <td data-stat="country"></td> estará vazio sem o <a>, ignore essa linha e continue. O país é uma sigla de três letras. Exemplo: ENG, BRA, FRA.
 Nome da liga: <th data-stat="league_name><a>Nome da liga</a></th>. 
 URL da liga: <td data-stat="maxseason"><a href="URL da liga"></a></td>. Obs.: a url deve vir no seguinte formato: https://fbref.com/en/comps/{id_da_liga}/{nome fantasia da liga}-Stats . A URL a ser salva deve ser no segguinte formato: https://fbref.com/en/comps/{9}/schedule/{nome fantasia da liga}-Scores-and-Fixtures
 
