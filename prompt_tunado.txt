@@ -1,0 +1,112 @@
+# Prompt Otimizado: FBRef League Data Scraper
+
+## Objetivo
+Desenvolva uma aplicação Node.js CLI para extrair dados de ligas de futebol do site FBRef e organizá-los em um dataset estruturado.
+
+## Especificações Técnicas
+
+### 1. Estrutura do Projeto
+Crie os seguintes artefatos separados:
+- `index.js` - Aplicação principal
+- `debug.js` - Script de debugging  
+- `package.json` - Configuração e dependências
+- `README.md` - Documentação completa
+- `.gitignore` - Exclusões do Git
+
+### 2. Fonte de Dados
+- **URL**: https://fbref.com/en/comps/
+- **Método**: Web scraping com Node.js
+- **Execução**: CLI (sem frontend)
+
+### 3. Seletores de Dados
+
+#### Tabelas Alvo
+```html
+IDs específicos: comps_club, comps_1_fa_club_league_senior, comps_2_fa_club_league_senior, comps_3_fa_club_league_senior
+```
+
+#### Estrutura HTML dos Dados
+```html
+<!-- País (extrair código de 3 letras do segundo <a>) -->
+<td class="left" data-stat="country">
+    <a href="/en/country/ENG/England-Football">
+        <span class="f-i f-gb-eng">eng</span>
+    </a> 
+    <a href="/en/country/ENG/England-Football">ENG</a>
+</td>
+
+<!-- Nome da Liga -->
+<th data-stat="league_name">
+    <a>Nome da liga</a>
+</th>
+
+<!-- URL Original (converter para formato de fixtures) -->
+<td data-stat="maxseason">
+    <a href="/en/comps/{id}/{nome}-Stats">Temporada</a>
+</td>
+```
+
+### 4. Transformações de Dados
+
+#### Conversão de URL
+```
+Entrada: /en/comps/{id}/{nome}-Stats
+Saída:   https://fbref.com/en/comps/{id}/schedule/{nome}-Scores-and-Fixtures
+```
+
+#### Validações
+- País: Exatamente 3 letras maiúsculas
+- Ignorar linhas sem links válidos
+- Ligas agrupadas por país
+
+### 5. Formato de Saída
+
+**Arquivo**: `fbref-dataset.js`
+
+```javascript
+const dataset = {
+    "ENG": {
+        "Premier League": "https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures",
+        "EFL Championship": "https://fbref.com/en/comps/10/schedule/Championship-Scores-and-Fixtures"
+    },
+    "BRA": {
+        "Série A": "https://fbref.com/en/comps/24/schedule/Serie-A-Scores-and-Fixtures"
+    }
+};
+
+module.exports = dataset;
+```
+
+## Requisitos de Implementação
+
+### Dependências
+- `axios` para requisições HTTP
+- `cheerio` para parsing HTML
+
+### Considerações Especiais
+1. **Tabelas em Comentários**: O FBRef armazena tabelas dentro de comentários HTML `<!-- -->`
+2. **Rate Limiting**: Implementar delays entre requisições (2-3 segundos)
+3. **Headers Realistas**: User-Agent de navegador para evitar bloqueios
+4. **Tratamento de Erros**: Logs detalhados e fallbacks
+
+### Script de Debug
+Deve incluir:
+- Análise da estrutura HTML
+- Identificação de tabelas em comentários
+- Salvamento do HTML para inspeção manual
+- Logs detalhados da extração
+
+### Documentação
+README.md deve conter:
+- Instruções de instalação e uso
+- Explicação da estrutura de dados
+- Guia de troubleshooting
+- Exemplos de execução
+
+## Critérios de Sucesso
+- ✅ Execução via `node index.js`
+- ✅ Geração do arquivo `fbref-dataset.js`
+- ✅ Dados agrupados corretamente por país
+- ✅ URLs convertidas para formato de fixtures
+- ✅ Tratamento robusto de erros
+- ✅ Script de debug funcional
